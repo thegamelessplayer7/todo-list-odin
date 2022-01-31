@@ -1,8 +1,15 @@
 // User Interface
 const container = document.getElementById('main-container');
+const contentContainer = document.createElement('div');
+container.appendChild(contentContainer);
 const form = document.getElementById('main-form');
 let ID;
 let deleteBtn;
+let itemBar;
+let listName;
+
+
+let holdLists = [];
 
 //constructor/factories
 
@@ -10,6 +17,10 @@ let todoList = [];
 
 const todoConstructor = ({title, date, description, priority, ID}) => {
     return {title, date, description, priority, ID}
+}
+
+const holdListsConstructor = (title) => {
+    this.title = title;
 }
 
 const getTodoListInfo = (event) => {
@@ -29,7 +40,6 @@ function addItemToList(todoItem) {
 }
 
 function removeItem(ID) {
-    console.log(ID);
     todoList = todoList.filter((item) => item.ID !== ID);
 }
 
@@ -37,8 +47,8 @@ function removeItem(ID) {
 //generated todoItem Bar
 
 function userSuppliedInfo (todoItem) {
-    const itemBar = document.createElement('div');
-    container.appendChild(itemBar);
+    itemBar = document.createElement('div');
+    contentContainer.appendChild(itemBar);
     itemBar.setAttribute('id', ID);
 
     const itemTitle = document.createElement('h2');
@@ -71,7 +81,27 @@ function userSuppliedInfo (todoItem) {
 }
 
 
+const createBtn = document.getElementById('create-btn');
+createBtn.addEventListener('click', () => {
+    listName = document.createElement('h2');
+    contentContainer.appendChild(listName);
+    listName = prompt('Name of List?');
+    console.log(listName);
+    createList();
+})
 
+
+
+function createList() {
+    holdLists.push(todoList);
+    todoList = [];
+    /*for (let i = 0; i < itemBar.length; i++) {
+        itemBar[i].textContent = '';
+    }*/
+    console.log(holdLists);
+    console.log(todoList);
+    contentContainer.textContent = '';
+}
 
 export const create = () => {
     form.addEventListener('submit', (event) => {
